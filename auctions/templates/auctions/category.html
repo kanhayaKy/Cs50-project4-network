@@ -1,0 +1,46 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item " aria-current="page"><a href="{% url 'index' %}">Listing</a></li>
+      <li class="breadcrumb-item active" aria-current="page">category</li>
+      <li class="breadcrumb-item active" aria-current="page"></li>
+
+    </ol>
+</nav>
+
+  <div class="" id="content" >
+    <div class="row justify-content-center ">
+    {% for item in items %}
+    <div class="col-lg-3 content-column" style="width: 30rem;">
+        <div class="card" >
+            {% if item.image_url%}
+                <img src="{{ item.image_url}}" class="card-img-top img-fluid" alt="Item image">
+            {% else %}
+                <img src="https://semantic-ui.com/images/wireframe/image.png" class="card-img-top img-fluid" alt="">
+            {% endif %} 
+
+            <div class="card-body" id="text-color">
+                <h2 class="card-title text-uppercase font-weight-bold">{{ item.title}}</h2>
+                <hr>
+                <p>{{ item.description}}</p>
+                <h1><p>$ {{ item.starting_bid}}</p></h1>
+                <p class="text" >created {{ item.date }}</p>
+                <a href="{% url 'listing' item.id %}" class="btn btn-info">View</a>
+            </div>
+
+        </div>
+    </div>
+        {% empty %}
+        <div class="alert alert-primary" role="alert">
+            Nothing yet
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
