@@ -1,0 +1,67 @@
+.navbar-brand
+{
+  font-size: 2rem;
+
+}
+
+body{
+    background-color: lightskyblue;
+
+}
+
+footer{
+    color:#fff;
+
+}
+
+#content{
+    padding: 3%;
+}
+
+img{
+    max-height: 14rem;
+}
+
+.text{
+    color:wheat ;
+    font-size: 0.8rem;
+    
+}
+.content-column{
+    margin-top: 2rem;
+    padding: 2% 3%;
+}
+
+.card{
+    border: none;
+}
+
+.card-body{
+    background-color:#E54975;
+    color: #fff;
+}
+
+.breadcrumb{
+    margin-bottom: 0;
+}
+
+.card-title{
+    font-size: 2rem;
+    color: #D6F6FF;
+}
+
+.listing{
+    height: 45vh;
+}
+/* [class*="col-"] {
+    margin-bottom: 30px;
+  }
+
+#content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+   */
+
+
+   

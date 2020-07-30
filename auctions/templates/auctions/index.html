@@ -1,0 +1,66 @@
+{% extends "auctions/layout.html" %}
+
+{% block nav %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'WatchList' %}">WatchList</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
+    </li>
+{% endblock nav %}
+
+
+{% block body %}
+    <nav aria-label="breadcrumb m-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item " aria-current="page"><a href="{% url 'index' %}">Listing</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ user.username}}</li>
+        </ol>
+    </nav>
+
+
+    <div class="" id="content" >
+        <div class="btn-group float-right">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Filter
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item disabled" href="#">Categories</a>
+              <div class="dropdown-divider"></div>
+                {% for category in categories %}
+                    {% if category.category %}
+                    <a class="dropdown-item" href="{% url 'category' category.category%}">{{category.category}}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+          </div>
+        <div class="row justify-content-center ">
+            {% for item in listing reversed %}
+            {% if item.isactive%}
+            <div class="col-lg-3 content-column" style="width: 20rem;">
+                <div class="card" >
+                    {% if item.image_url%}
+                        <img src="{{ item.image_url}}" class="card-img-top img-fluid" alt="Item image">
+                    {% else %}
+                        <img src="https://semantic-ui.com/images/wireframe/image.png" class="card-img-top img-fluid" alt="">
+                    {% endif %} 
+    
+                    <div class="card-body" id="text-color">
+                        <h2 class="card-title text-uppercase font-weight-bold">{{ item.title}}</h2>
+                        <hr>
+                        <p>{{ item.description}}</p>
+                        <h1><p>$ {{ item.starting_bid}}</p></h1>
+                        <p class="text" >created {{ item.date }}</p>
+                        <a href="{% url 'listing' item.id %}" class="btn btn-info">View</a>
+                    </div>
+    
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    
+        
+   
+{% endblock %}
