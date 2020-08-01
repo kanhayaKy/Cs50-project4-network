@@ -1,0 +1,141 @@
+{% extends "auctions/layout.html" %}
+
+
+{% block body %}
+
+
+    <!-- Title of the listing  -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item " aria-current="page"><a href="{% url 'index' %}">Listing</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ item.title}}</li>
+        </ol>
+      </nav>
+      
+    
+        <!-- Placing the listing card -->
+        <div class="container my-3 ">
+
+                <!-- if any messages display  -->
+                {% if message %}
+                <div class="alert alert-danger" role="alert">
+                        <p>{{message}}</p>
+                </div>
+                {% endif %}
+
+            {% if request.user.is_authenticated and item.isactive%}
+
+            <!-- If the Current User is the Owner of the Listing and the Listing is active then display the end auction Button -->
+            {% if request.user == item.user %}
+                
+                <a class="float-right my-3" href="{% url 'closeBid' item.id %}"> <span class="badge badge-danger">End Auction</span></a>
+            {% endif %}
+    
+            <!-- Display the watchlist Button if the User is logged in  -->
+            <form class="my-5" action="{% url 'WatchList' item.id %} " method="post">
+                {% csrf_token%}
+                
+                <input type="submit" name="{{item.id}}" class="btn btn-primary" id="" value="watchlist">
+            </form>
+            {% endif %}
+
+            <div class="card my-3 vw-75">
+                <div class="row no-gutters">
+                  <div class="col-md-4 p-1">
+                    {% if item.image_url%}
+                        <img src="{{ item.image_url}}" class="card-img-top img-fluid"  alt="Item image">
+                    {% else %}
+                         <img src="https://semantic-ui.com/images/wireframe/image.png" class="card-img-top img-fluid" alt="">
+                    {% endif %}              
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body px-3">
+                      <h3 class="card-title  text-uppercase font-weight-bold">{{ item.title}}</h5>
+                      <p class="card-text">{{item.description}}</p>
+                      <p class="card-text">Starting Bid : ${{item.starting_bid}}</p>
+                      <p class="card-text">Listed By : {{item.user}}</p>
+                      <p class="card-text"><small class=" text">{{item.date}}</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+
+
+
+
+    <!-- Details of the Listing -->
+    
+    <div class="container my-5 p-2">
+        {% if current_bid %}
+        <h1 class="text-uppercase text-white" >$ {{current_bid}}</h1>
+        {% else %}
+        <h1 class=" text-white" >No Bids yet</h1>
+        {% endif %}
+        <!-- Display a bid form if user is logged in and the listing is active -->
+        {% if request.user.is_authenticated and item.isactive %}
+
+             {% if count %}
+                <p class="text-light">{{count}} Bids. Current Bid by {{ item.bidder }}</p>
+            {% endif %}
+            <form action="{% url 'addBid' item.id  %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                      <input type="number" class="form-control" name="bid" placeholder="Place your Bid">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">place</button>                    
+                    </div>
+                </div>
+            </form>
+
+            {% elif not item.isactive %}
+                <h1>This listing has been closed and won by {{item.bidder}}</h1>
+            {% endif %}
+        </div>
+    
+    <!-- Comments on the listing -->
+    <hr>
+    <div class="container p-5 my-5">
+
+        <h1 class="display-4 text-light">Comments</h1>
+        <div class="list-group w-40">
+        {% for comment in comments%}
+            <a  href="#" class="list-group-item list-group-item-action mb-3 ">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 text-muted">{{comment.user}}</h5>
+                    <small>{{comment.date}}</small>
+                </div>
+                <p class="mb-1">{{ comment.comment }}</p>
+          </a>
+            {% empty %}
+                <small>No comments yet</small>
+        {% endfor %}
+        </div>
+
+            <!-- Enable comment if the user is logged in and the lidting is active -->
+        {% if request.user.is_authenticated and item.isactive %}
+        <div class="input-group mb-3">
+            <form action="{% url 'comment' item.id %}" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col ">
+                      <input type="text" class="form-control" name="comment" placeholder="comment something">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-outline-primary">comment</button>                    
+                    </div>
+                </div>
+
+            </form>
+        </div>
+            
+    {% endif %}
+    </div>
+
+    
+{% endblock %}
+
+
