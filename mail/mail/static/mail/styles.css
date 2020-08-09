@@ -1,0 +1,33 @@
+textarea {
+    min-height: 400px;
+}
+
+.emailList>*{
+    pointer-events: none;
+}
+
+.list-group-item{
+    display: flex;
+    align-items: baseline;
+    padding: 0.25rem 1.25rem ;
+    
+}
+
+.list-group-item:hover{
+    transform: scaleY(0.9);
+}
+
+.list-group-item>h5{
+    font-weight: bolder;
+}
+
+.list-group-item>p{
+    padding: 0 2rem;
+    margin-bottom: 0;
+    font-size: 1.2rem;
+    color: black;
+}
+
+.list-group-item>small{
+    margin-left: auto;
+}
