@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
       fetch(`/emails/${id}`)
       .then(response => response.json())
       .then(email => {
-          view_mail(email,id);
+          view_mail(email,mailbox);
       });
     }
     //load mailbox if id does not exist
@@ -97,8 +97,8 @@ function load_mailbox(mailbox) {
       //Add event Listener to each email
       emails.forEach(mail => {
         document.querySelector(`[data-email-id= '${mail.id}']`).addEventListener('click', function  handler(){
-          mailbox = `${mailbox}/${mail.id}`;
-          history.pushState({mailbox:mailbox,},"",`#${mailbox}`);
+          emailId = `${mailbox}/${mail.id}`;
+          history.pushState({mailbox:emailId,},"",`#${mailbox}`);
           view_mail(mail,mailbox);
           this.removeEventListener('click',handler)
         });
@@ -161,6 +161,7 @@ function view_mail(email , mailbox){
   }
 
   //Hide the archive button in sent mailbox
+  console.log(mailbox,"------------------");
   if(mailbox=="sent"){
     document.querySelector("#archive-button").style.display = "none";
   }
@@ -212,4 +213,3 @@ function archive(email,e){
 
   }, 100);
 }
-
