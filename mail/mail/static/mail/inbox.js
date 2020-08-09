@@ -85,7 +85,8 @@ function load_mailbox(mailbox) {
       //Add event Listener to each email
       emails.forEach(mail => {
         document.querySelector(`[data-email-id= '${mail.id}']`).addEventListener('click', function  handler(){
-          history.pushState({mailbox:mailbox, id:mail.id},"",`${mailbox}/${mail.id}`);
+          mailbox = `${mailbox}/${mail.id}`;
+          history.pushState({mailbox:mailbox,},"",`#${mailbox}`);
           view_mail(mail,mailbox);
           this.removeEventListener('click',handler)
         });
@@ -199,3 +200,4 @@ function archive(email,e){
 
   }, 100);
 }
+
