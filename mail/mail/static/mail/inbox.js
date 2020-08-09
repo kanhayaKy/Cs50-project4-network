@@ -8,13 +8,25 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#compose-form').onsubmit =  event => send_mail(event);
 
   window.onpopstate = function(event) {
-    load_mailbox(event.state.mailbox);
+    //Check if ID exists in the mailbox
+    if(event.state.mailbox.split('/')[1]){
+      mailbox = event.state.mailbox.split('/')[0];
+      id = event.state.mailbox.split('/')[1];
+      //fetch the email
+      fetch(`/emails/${id}`)
+      .then(response => response.json())
+      .then(email => {
+          view_mail(email,id);
+      });
+    }
+    //load mailbox if id does not exist
+    else
+      load_mailbox(event.state.mailbox);
 }
 
   document.querySelectorAll(".mailbox-button").forEach(button =>{
     button.onclick = function(){
       const mailbox = this.id;
-      console.log(window.location.hash)
       history.pushState({mailbox:mailbox},`${mailbox}`,`#${mailbox}`);
     }
   })
