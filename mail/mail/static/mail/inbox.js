@@ -97,8 +97,8 @@ function load_mailbox(mailbox) {
       //Add event Listener to each email
       emails.forEach(mail => {
         document.querySelector(`[data-email-id= '${mail.id}']`).addEventListener('click', function  handler(){
-          emailId = `${mailbox}/${mail.id}`;
-          history.pushState({mailbox:emailId,},"",`#${mailbox}`);
+          mailId = `${mailbox}/${mail.id}`;
+          history.pushState({mailbox:mailId,},"",`#${mailId}`);
           view_mail(mail,mailbox);
           this.removeEventListener('click',handler)
         });
@@ -134,6 +134,7 @@ function send_mail(event){
     }else{
 
       //Load the sent mailbox when email is sent
+      history.pushState({mailbox:'sent'},"",`#sent`);
       load_mailbox('sent')
     }
   });
@@ -161,9 +162,13 @@ function view_mail(email , mailbox){
   }
 
   //Hide the archive button in sent mailbox
-  console.log(mailbox,"------------------");
   if(mailbox=="sent"){
     document.querySelector("#archive-button").style.display = "none";
+  }else{
+    document.querySelector("#archive-button").style.display = null;
+    //Event listener to archive an email
+    e = (event)=> {archive(email,e) };
+    document.querySelector("#archive-button").addEventListener('click' , e);
   }
 
   //Display Unarchive button if mail is archived
@@ -174,9 +179,7 @@ function view_mail(email , mailbox){
   }
 
 
-  //Event listener to archive an email
-  e = (event)=> {archive(email,e) };
-  document.querySelector("#archive-button").addEventListener('click' , e);
+
 
 
   //Display the contents of the Mail
@@ -197,14 +200,14 @@ function view_mail(email , mailbox){
 
 
 function archive(email,e){
-
+  console.log("archiving",email,e.target)
   fetch(`/emails/${email.id}`, {
     method: 'PUT',
     body: JSON.stringify({
         archived: !email.archived
     })
   });
-
+  console.log(email)
   document.querySelector("#archive-button").removeEventListener('click' , e);
 
 
@@ -213,3 +216,4 @@ function archive(email,e){
 
   }, 100);
 }
+
