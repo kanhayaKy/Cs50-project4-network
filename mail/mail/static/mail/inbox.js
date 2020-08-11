@@ -133,6 +133,11 @@ function send_mail(event){
       alert(`${result.error}`)
     }else{
 
+      document.querySelector(".alert").classList.remove("d-none");
+      setTimeout(() => {
+        document.querySelector(".alert").classList.add("d-none");
+
+      }, 3000);
       //Load the sent mailbox when email is sent
       history.pushState({mailbox:'sent'},"",`#sent`);
       load_mailbox('sent')
