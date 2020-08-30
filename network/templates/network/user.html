@@ -1,0 +1,21 @@
+{% extends "network/postlist.html" %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4 col-sm-2">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQZNICp8mwhEWT1e0IHbDoqdd0y2EI8RdOwQw&usqp=CAU" class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{user.username}}</h5>
+          <p class="card-text"><span class="badge badge-secondary followers">{{ followers}} followers</span> | <span class="badge badge-secondary following">{{ following}} following</span></p>
+          {% if user != request.user %}
+          <a class="btn btn-primary follow-button" data-user_id="{{user.id}}"  role="button">{% if isfollowing %}Unfollow{% else %}Follow{% endif %}</a>
+          {% endif %}
+          <p class="card-text"><small class="text-muted">Member since {{user.date_joined.date}}</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
