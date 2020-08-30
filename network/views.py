@@ -156,7 +156,6 @@ def register(request):
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
-        print(username , email , password , confirmation)
         if password != confirmation:
             return render(request, "network/register.html", {
                 "message": "Passwords must match."
