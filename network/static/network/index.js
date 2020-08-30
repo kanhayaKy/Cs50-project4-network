@@ -45,7 +45,7 @@ function editPost(postId){
         })
         .then(response => response.json())
         .then(result => {
-            console.log(result);
+            //console.log(result);
             post.querySelector(".card-title").innerText = result["body"];
         })
         post.querySelector("#edit-button").classList.remove("d-none")
@@ -74,8 +74,6 @@ function likePost(event,postId){
     })
     .then(response => response.json())
     .then(result => {
-        console.log(result);
-        console.log(event.target);
         event.target.lastElementChild.innerText = result['count'];
 
     })
@@ -110,8 +108,6 @@ function createPost(){
       })
       .then(response => response.json())
       .then(result => {
-          console.log(result)
-
           setTimeout(()=>{
               location.reload();
           },500);
