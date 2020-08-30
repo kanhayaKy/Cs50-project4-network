@@ -1,0 +1,30 @@
+.card{
+    margin: 20px;
+}
+button{
+    all:unset;
+}
+
+.sidebar{
+    background : black;
+    color: honeydew;
+}
+
+.sidebar-heading{
+    margin-left: 2.5rem;
+    margin-top: 2rem;
+}
+
+.sidebar-body{
+    margin: auto;
+}
+
+#like-button * {
+    pointer-events: none;
+}
+
+.list-group-item{
+    padding:0.01rem;
+}
+
+
