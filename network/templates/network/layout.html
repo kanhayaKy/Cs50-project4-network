@@ -1,0 +1,112 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Social Network{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+        <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+        <script src="{% static 'network/index.js'%}"></script>
+    </head>
+    <body>
+
+        <div class="sticky-top">
+            <nav class="navbar  navbar-expand-lg navbar-dark bg-dark ">
+                <a class="navbar-brand ml-lg-5 text-monospace font-weight-bolder " href="{% url 'index' %}">Network</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ml-auto px-3">
+                    <li class="nav-item ">
+                      <a class="nav-link" href="{% url 'index' %}">All Posts<span class="sr-only">(current)</span></a>
+                    </li>
+                   
+                    {% if user.is_authenticated %}
+                        
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-outline-secondary p-2 mx-4" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ request.user.username}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'posts' request.user %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'posts' 'following'%}">Following</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-success p-2 ml-3" href="{% url 'login' %}">logIn</a>
+                        </li>
+                    {% endif %}
+                    </li>
+                  </ul>
+                </div>
+            </nav>
+        </div>
+
+        
+        <div class="body">
+            
+            <div class="row">
+                {% if user.is_authenticated %}
+                <div class="d-none d-lg-block sidebar col-lg-2 col-md-3 py-5 px-1">
+                    <h4 class="sidebar-heading" >Following</h4>
+                    <div class="card sidebar-body" style="width: 60%;">
+                        <ul class="list-group list-group-flush">
+                        {% for person in request.user.following.all %}
+
+                          <li class="list-group-item"><a class="nav-link" href="{% url 'posts' person %}"><strong>{{ person.username }}</strong></a></li>
+                        </ul>
+                        {% endfor %}
+
+                      </div>
+
+                    <h4 class="sidebar-heading">Followers</h4>
+                    <div class="card sidebar-body" style="width: 60%;">
+                        <ul class="list-group list-group-flush">
+                        {% for person in request.user.followers.all %}
+
+                          <li class="list-group-item"><a class="nav-link" href="{% url 'posts' person %}"><strong>{{ person.username }}</strong></a></li>
+                          {% endfor %}
+
+                        </ul>
+
+                      </div>
+
+                      <h4 class="sidebar-heading">Explore</h4>
+                      <div class="card sidebar-body" style="width: 60%;">
+                        <ul class="list-group list-group-flush">
+                        {% for person in users %}
+
+                          <li class="list-group-item"><a class="nav-link" href="{% url 'posts' person %}"><strong>{{ person.username }}</strong></a></li>
+                        </ul>
+                        {% endfor %}
+
+                      </div>
+                </div>
+                {% endif %}
+                <div class=" col-lg-10 col-md-9 ">
+
+                    {% block body %}
+                    {% endblock %}
+                </div>
+    
+            </div>
+
+            
+        </div>
+
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </body>
+</html>
